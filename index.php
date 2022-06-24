@@ -8,11 +8,13 @@ $headers =apache_request_headers();
 $ch = curl_init(); 
     curl_setopt($ch, CURLOPT_URL, $geturl); 
 if ($method == 'POST') {
-    curl_setopt($ch, CURLOPT_POST, 1);   //定义提交类型 1：POST ；0：GET 
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $_POST); 
 } elseif ($method == 'GET') {
-    curl_setopt($ch, CURLOPT_POST, 0);   //定义提交类型 1：POST ；0：GET 
+    curl_setopt($ch, CURLOPT_POST, 0);
 } elseif ($method == 'PUT') {
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "put");
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $_POST); 
 } elseif ($method == 'DELETE') {
     echo "Method is DELETE\n";
     echo "未设置 DELETE 请求 | ";
@@ -25,7 +27,6 @@ if ($method == 'POST') {
     curl_setopt($ch, CURLOPT_HEADER,0);
     curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $_POST); 
     $res = curl_exec($ch);
     if(curl_errno($ch)){
         echo 'Error:' . curl_error($ch);
